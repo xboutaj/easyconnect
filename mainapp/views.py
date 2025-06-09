@@ -220,4 +220,20 @@ def event_detail(request, event_id):
     return render(request, 'main/event_detail.html', context)
 
 
+@login_required
+@role_required('attendee')
+def ticket_detail(request, ticket_id):
+    ticket = Ticket.objects.get(ticket_id=ticket_id, user=request.user)
+    event = Event.objects.filter(
+        name=ticket.event_name,
+        date=ticket.event_date.date(),
+        time=ticket.event_date.time()
+    ).first()
+    context = {
+        'ticket': ticket,
+        'event': event
+    }
+    return render(request, 'main/ticket_detail.html', context)
+
+
 

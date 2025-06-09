@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block title %}Attendee Dashboard{% endblock %}
+
+{% load static %} 
+
+{% block content %}
+
+  <header class="navbar">
+    <div class="logo">EasyConnect Attendee</div>
+    <nav class="nav-links">
+      <a href="{% url 'home' %}">Home</a>
+      {% if user.is_authenticated %}
+        <a href="{% url 'logout' %}">Logout</a>
+      {% endif %}
+      <a href="#" onclick="toggleRegisterForm()">Register for Event</a>
+    </nav>
+  </header>
+
+  <section class="hero" data-aos="fade-up" style="background: linear-gradient(to right, #f0f4ff, #ffffff); padding: 2rem 1rem;">
+
+    <h1 class="hero-title">Your Events</h1>
+    <p class="hero-subtitle">See the events you're attending and your past connections.</p>
+
+    {% if messages %}
+      <ul class="messages">
+        {% for message in messages %}
+          <li>{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+
+    <!-- Register Form -->
+    <div id="register-form" class="glass-card" style="display:none;" data-aos="zoom-in-up">
+      <h2> Register for an Event</h2>
+      <input type="text" class="form-input large" placeholder="Your Name (optional)" />
+      <input type="email" class="form-input large" placeholder="Email (optional)" />
+      <input type="url" class="form-input large" placeholder="LinkedIn (optional)" />
+      <input type="url" class="form-input large" placeholder="Personal Website (optional)" />
+      <button class="glow-button" onclick="alert('Registered!')">Submit</button>
+    </div>
+
+    <!-- Event Cards -->
+    <div class="glass-card" data-aos="fade-up">
+      <h2>Upcoming Events</h2>
+      <div class="event-card">
+        <h3>AI Expo 2025</h3>
+        <p><strong>Date:</strong> Aug 3, 2025<br><strong>Time:</strong> 10:00 AM<br><strong>Location:</strong> Convention Hall A</p>
+        <p class="event-description short">A full-day showcase of the latest in artificial intelligence and smart devices...</p>
+        <button class="see-more" onclick="toggleDescription(this)">See More About This</button>
+        <ul class="vendor-list" style="display:none;">
+          <li>OpenAI Booth</li>
+          <li>Google DeepMind</li>
+          <li>MIT AI Lab</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="glass-card" data-aos="fade-up">
+      <h2>Past Events</h2>
+      <div class="event-card">
+        <h3>Tech Connect 2024</h3>
+        <p><strong>Date:</strong> April 20, 2024<br><strong>Time:</strong> 9:00 AM<br><strong>Location:</strong> Downtown Center</p>
+        <p class="event-description short">Explore startups, innovators, and connection-building opportunities with wristband data...</p>
+        <button class="see-more" onclick="toggleDescription(this)">See More About This</button>
+        <ul class="vendor-list" style="display:none;">
+          <li>UCSD Startups</li>
+          <li>Apple Dev Hub</li>
+          <li>Cybersecurity Labs</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Interactions -->
+    <div class="glass-card" data-aos="fade-up">
+      <h2>Your Connections</h2>
+      <ul>
+        <li><strong>Person 1</strong> <a href="#">LinkedIn</a> | <a href="#">Website</a></li>
+        <li><strong>Person 2</strong> <a href="#">LinkedIn</a></li>
+        <li><strong>Person 3</strong> <a href="#">Website</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <script type="module" src="{% static 'js/attendee-admin.js' %}"></script>
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script>AOS.init();</script>
+
+{% endblock %}

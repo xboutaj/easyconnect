@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% load static %} 
+
+{% block content %}
+  <!-- Floating Blobs -->
+  <div class="bg-blobs">
+    <div class="blob purple"></div>
+    <div class="blob pink"></div>
+    <div class="blob blue"></div>
+  </div>
+
+  <!-- Navbar -->
+  <header class="navbar" data-aos="fade-down">
+    <div class="logo">EasyConnect</div>
+    <nav class="nav-links">
+      <a href="#home">Home</a>
+      <a href="#about">About Us</a>
+      
+      {% if user.is_authenticated %}
+
+        {% if user.role == 'admin' %}
+          <a href="{% url 'admin' %}">Dashboard</a>
+        {% elif user.role == 'vendor' %}
+          <a href="{% url 'vendor' %}">Dashboard</a>
+        {% elif user.role == 'attendee' %}
+          <a href="{% url 'attendee' %}">Dashboard</a>
+        {% endif %}
+
+        <a href="{% url 'logout' %}">Logout</a>
+      {% else %}
+        <a href="{% url 'login' %}">Login</a>
+      {% endif %}
+
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="home" class="hero" data-aos="fade-up">
+    <h1 class="hero-title" data-aos="zoom-in">Effortless Networking<br />Through a Handshake</h1>
+    <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="200">
+      Instantly connect with others at events—no awkward exchanges, no business cards. Just handshake and sync.
+    </p>
+
+    <div class="glass-card" data-aos="zoom-in-up" data-aos-delay="300">
+      <h2 class="card-heading">Register with your Event Link</h2>
+      <input
+        id="event-link"
+        type="url"
+        class="form-input large"
+        placeholder="e.g. https://events.easyconnect"
+      />
+      <button onclick="submitEventLink()" class="glow-button">Register Now</button>
+
+    
+      <div class="auth-options" data-aos="fade-in" data-aos-delay="400">
+        <p>or</p>
+        <a href="{% url 'login' %}">
+          <button class="auth-button">Log In</button>
+        </a>
+        <a href="{% url 'signup' %}">
+          <button class="auth-button alt">Sign Up</button>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="about" data-aos="fade-up">
+    <h2 class="about-title">Why EasyConnect?</h2>
+    <p class="about-text">
+      Our smart wristband modernizes networking by enabling seamless digital contact exchange with a simple gesture.
+      No apps, no friction—just instant connections for professionals and students alike.
+    </p>
+  </section>
+
+  <!-- Footer -->
+  <footer id="signin" class="footer" data-aos="fade-up">
+    © 2025 EasyConnect. All rights reserved.
+  </footer>
+
+  <!-- Scripts -->
+  <script type="module" src="{% static 'js/main.js' %}"></script>
+
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script>
+    AOS.init();
+
+    function submitEventLink() {
+      const link = document.getElementById("event-link").value.trim();
+      if (!link) {
+        alert("Please enter a valid registration link.");
+        return;
+      }
+      alert("Submitting: " + link);
+      // window.location.href = `/setup-profile.html?event=${encodeURIComponent(link)}`;
+    }
+  </script>
+
+{% endblock %}

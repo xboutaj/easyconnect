@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}QR Scanner{% endblock %}
+
+{% load static %}
+
+{% block content %}
+<header class="navbar">
+  <div class="logo">EasyConnect Scan</div>
+  <nav class="nav-links">
+    <a href="{% url 'employee_dashboard' %}">Dashboard</a>
+    {% if user.is_authenticated %}
+      <a href="{% url 'logout' %}">Logout</a>
+    {% endif %}
+    
+  </nav>
+</header>
+
+<section class="hero" data-aos="fade-in">
+  <h2 class="hero-title">Scan Ticket QR</h2>
+  <button id="scan-btn" class="glow-button">Scan Ticket</button>
+  <p id="scanner-output" style="margin-top:1rem;"></p>
+</section>
+
+<script src="{% static 'js/dashboard-employee.js' %}" type="module"></script>
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script>AOS.init();</script>
+
+{% endblock %}

@@ -193,18 +193,31 @@ def assign_device_api(request):
         ticket_id = data.get('ticket_id')
 
         # Simulate device assignment logic
-        device = Device.objects.filter(available=True).first()
-        if device:
-            device.assigned_ticket = ticket_id
-            device.available = False
-            device.save()
-            publish_message(
-                f"device/{device.device_id}/control",
-                json.dumps({"ticket_id": ticket_id})
-            )
-            return JsonResponse({'success': True, 'message': f'Device {device.device_id} assigned.'})
-        else:
-            return JsonResponse({'success': False, 'message': 'No available devices.'})
+    device = Device.objects.filter(available=True).first()
+    if device:
+        device.assigned_ticket = ticket_id
+        device.available = False
+        device.save()
+        publish_message(
+            f"device/{device.device_id}/control",
+            json.dumps({"ticket_id": ticket_id})
+        )
+        return JsonResponse({'success': True, 'message': f'Device {device.device_id} assigned.'})
+    else:
+        return JsonResponse({'success': False, 'message': 'No available devices.'})
+
+
+@login_required
+@role_required('admin')
+def event_detail(request, event_id):
+    event = Event.objects.get(id=event_id, host=request.user)
+    event_dt = timezone.make_aware(datetime.combine(event.date, event.time))
+    attendee_count = Ticket.objects.filter(event_name=event.name, event_date=event_dt).count()
+    context = {
+        'event': event,
+        'attendee_count': attendee_count
+    }
+    return render(request, 'main/event_detail.html', context)
 
 
 

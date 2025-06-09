@@ -30,6 +30,16 @@
       </ul>
     {% endif %}
 
+    <!-- Join Event Form -->
+    <div class="glass-card" data-aos="zoom-in-up">
+      <h2>Join an Event</h2>
+      <form method="post" action="{% url 'join_event' %}">
+        {% csrf_token %}
+        <input type="text" class="form-input large" name="event_code" placeholder="Enter Event Code" required />
+        <button class="glow-button" type="submit">Join Event</button>
+      </form>
+    </div>
+
     <!-- Register Form -->
     <div id="register-form" class="glass-card" style="display:none;" data-aos="zoom-in-up">
       <h2> Register for an Event</h2>

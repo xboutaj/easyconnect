@@ -39,20 +39,36 @@
       </form>
     </div>
 
-    <!-- Joined Events List -->
+    <!-- Upcoming Events -->
     <div class="glass-card" data-aos="fade-up">
-      <h2>Your Events</h2>
-      {% if joined_events %}
+      <h2>Upcoming Events</h2>
+      {% if upcoming_events %}
         <ul>
-          {% for event in joined_events %}
+          {% for event in upcoming_events %}
             <li>
               <strong>{{ event.name }}</strong> - {{ event.date }} at {{ event.location }}
-              <a class="see-more" href="{% url 'scanner_page' event.id %}">Open Scanner</a>
+              <a class="see-more" href="{% url 'scanner_view' %}">Open Scanner</a>
             </li>
           {% endfor %}
         </ul>
       {% else %}
-        <p>You haven't joined any events yet.</p>
+        <p>No upcoming events.</p>
+      {% endif %}
+    </div>
+
+    <!-- Past Events -->
+    <div class="glass-card" data-aos="fade-up">
+      <h2>Past Events</h2>
+      {% if past_events %}
+        <ul>
+          {% for event in past_events %}
+            <li>
+              <strong>{{ event.name }}</strong> - {{ event.date }} at {{ event.location }}
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>No past events.</p>
       {% endif %}
     </div>
   </section>

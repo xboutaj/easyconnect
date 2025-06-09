@@ -19,7 +19,13 @@ def home(request):
 
 @role_required('admin')
 def admin(request):
-    return render(request, 'main/admin.html')
+    today = timezone.now().date()
+    events = Event.objects.filter(host=request.user).order_by('date')
+    context = {
+        'upcoming_events': events.filter(date__gte=today),
+        'past_events': events.filter(date__lt=today)
+    }
+    return render(request, 'main/admin.html', context)
 
 @role_required('vendor')
 def vendor(request):
@@ -96,20 +102,36 @@ def join_event(request):
 
 @login_required
 def employee_dashboard(request):
-    return render(request, 'main/employee.html')
+    profile, _ = EmployeeProfile.objects.get_or_create(user=request.user)
+    events = profile.joined_events.all().order_by('date')
+    today = timezone.now().date()
+    context = {
+        'upcoming_events': events.filter(date__gte=today),
+        'past_events': events.filter(date__lt=today)
+    }
+    return render(request, 'main/employee.html', context)
 
 @csrf_exempt
 def join_event_employee(request):
     if request.method == 'POST':
-        data = json.loads(request.body)
-        event_code = data.get('event_code')
+        if request.content_type == 'application/json':
+            data = json.loads(request.body)
+            event_code = data.get('event_code')
+        else:
+            event_code = request.POST.get('event_code')
         try:
             event = Event.objects.get(employee_code=event_code)
             profile, _ = EmployeeProfile.objects.get_or_create(user=request.user)
             profile.joined_events.add(event)
-            return JsonResponse({'success': True, 'event_id': event.id})
+            if request.content_type == 'application/json':
+                return JsonResponse({'success': True, 'event_id': event.id})
+            messages.success(request, 'Event joined successfully')
+            return redirect('employee_dashboard')
         except Event.DoesNotExist:
-            return JsonResponse({'success': False, 'error': 'Invalid event code'})
+            if request.content_type == 'application/json':
+                return JsonResponse({'success': False, 'error': 'Invalid event code'})
+            messages.error(request, 'Invalid event code')
+            return redirect('employee_dashboard')
 
 @csrf_exempt
 def scan_ticket_qr(request):

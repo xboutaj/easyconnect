@@ -7,7 +7,6 @@ class UserProfile(models.Model):
     
     ROLE_CHOICES = [
         ('attendee', 'Attendee'),
-        ('vendor', 'Vendor'),
         ('admin', 'Admin'),
         ('employee', 'Employee'),
     ]
@@ -33,7 +32,6 @@ class Event(models.Model):
     host = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='hosted_events')
     attendee_code = models.CharField(max_length=10, unique=True)
     employee_code = models.CharField(max_length=10, unique=True)
-    vendor_code = models.CharField(max_length=10, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -65,16 +63,16 @@ class Ticket(models.Model):
     
 
 # Vendor information for vendors
-class VendorInfo(models.Model):
-    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
-    event = models.ForeignKey(Event, on_delete=models.CASCADE)
-    organization_name = models.CharField(max_length=100)
-    description = models.TextField(blank=True)
-    goal = models.TextField(blank=True)
-    reps = models.TextField(blank=True)
+# class VendorInfo(models.Model):
+#     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+#     event = models.ForeignKey(Event, on_delete=models.CASCADE)
+#     organization_name = models.CharField(max_length=100)
+#     description = models.TextField(blank=True)
+#     goal = models.TextField(blank=True)
+#     reps = models.TextField(blank=True)
 
-    def __str__(self):
-        return f"{self.organization_name} at {self.event.name}"
+#     def __str__(self):
+#         return f"{self.organization_name} at {self.event.name}"
 
 # Connection between two ticket holders (recorded after handshake)
 class Connection(models.Model):

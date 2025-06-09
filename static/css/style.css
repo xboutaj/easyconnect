@@ -273,7 +273,7 @@ button.see-more:hover {
 /* Glass Card */
 .glass-card {
   margin-top: 2rem;
-  max-width: 480px;
+  max-width: 580px;
   margin-left: auto;
   margin-right: auto;
   padding: 2rem;
@@ -285,6 +285,11 @@ button.see-more:hover {
   color: #fff;
   text-align: center;
 }
+
+.glass-card li {
+  color: black;
+}
+
 .card-heading {
   font-size: 1.25rem;
   font-weight: 600;

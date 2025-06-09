@@ -27,10 +27,6 @@ def admin(request):
     }
     return render(request, 'main/admin.html', context)
 
-@role_required('vendor')
-def vendor(request):
-    return render(request, 'main/vendor.html')
-
 @login_required
 @role_required('attendee')
 def attendee(request):
@@ -74,7 +70,6 @@ def create_event(request):
             host=request.user,
             attendee_code=gen_code(),
             employee_code=gen_code(),
-            vendor_code=gen_code()
         )
         messages.success(request, 'Event created successfully')
         return redirect('admin')
@@ -109,7 +104,8 @@ def join_event(request):
 
 
 @login_required
-def employee_dashboard(request):
+@role_required('employee')
+def employee(request):
     profile, _ = EmployeeProfile.objects.get_or_create(user=request.user)
     events = profile.joined_events.all().order_by('date')
     today = timezone.now().date()
@@ -134,12 +130,12 @@ def join_event_employee(request):
             if request.content_type == 'application/json':
                 return JsonResponse({'success': True, 'event_id': event.id})
             messages.success(request, 'Event joined successfully')
-            return redirect('employee_dashboard')
+            return redirect('employee')
         except Event.DoesNotExist:
             if request.content_type == 'application/json':
                 return JsonResponse({'success': False, 'error': 'Invalid event code'})
             messages.error(request, 'Invalid event code')
-            return redirect('employee_dashboard')
+            return redirect('employee')
 
 @csrf_exempt
 def scan_ticket_qr(request):

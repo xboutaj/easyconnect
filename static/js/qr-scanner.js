@@ -27,13 +27,19 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 
   btn?.addEventListener('click', () => {
-    btn.disabled = true;
-    readerElem.style.display = 'block';
-    scanner = new Html5Qrcode('qr-reader');
-    scanner.start({ facingMode: 'environment' }, { fps: 10, qrbox: 250 }, onScanSuccess)
-      .catch(err => {
-        console.error(err);
-        output.textContent = 'Unable to start scanner';
-      });
+  console.log('Scan button clicked');
+  btn.disabled = true;
+  readerElem.style.display = 'block';
+
+  scanner = new Html5Qrcode('qr-reader');
+  scanner.start(
+    { facingMode: 'environment' },
+    { fps: 10, qrbox: 250 },
+    onScanSuccess
+  ).catch(err => {
+    console.error('Scanner start failed', err);
+    output.textContent = 'Unable to start scanner';
   });
+});
+
 });

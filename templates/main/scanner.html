@@ -18,12 +18,14 @@
 
 <section class="hero" data-aos="fade-in">
   <h2 class="hero-title">Scan Ticket QR</h2>
-  <button id="scan-btn" class="glow-button">Start Scanner</button>
+  <div class="glass-card">
+    <button id="scan-btn" class="glow-button">Start Scanner</button>
   <div id="qr-reader" style="display:none;margin-top:1rem;"></div>
   <p id="scanner-output" style="margin-top:1rem;"></p>
+  </div>
 </section>
 
-<script src="https://unpkg.com/html5-qrcode@2.3.9/minified/html5-qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js"></script>
 <script src="{% static 'js/qr-scanner.js' %}"></script>
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 <script>AOS.init();</script>

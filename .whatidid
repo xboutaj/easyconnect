@@ -10,3 +10,6 @@
 - show attendee's upcoming and past events
 - ensure attendee views require login
 - add attendee profile page with picture upload
+- add qr code generator from ticket
+- qr code reader
+- user profile

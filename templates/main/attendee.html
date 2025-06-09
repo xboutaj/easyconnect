@@ -58,9 +58,7 @@
         <ul>
           {% for ticket in upcoming_events %}
             <li>
-              <a href="{% url 'event_connections' ticket.ticket_id %}">
-                <strong>{{ ticket.event_name }}</strong> - {{ ticket.event_date|date:'Y-m-d H:i' }}
-              </a>
+              <strong>{{ ticket.event_name }}</strong> - {{ ticket.event_date|date:'Y-m-d H:i' }}
             </li>
           {% endfor %}
         </ul>
@@ -75,9 +73,7 @@
         <ul>
           {% for ticket in past_events %}
             <li>
-              <a href="{% url 'event_connections' ticket.ticket_id %}">
-                <strong>{{ ticket.event_name }}</strong> - {{ ticket.event_date|date:'Y-m-d H:i' }}
-              </a>
+              <strong>{{ ticket.event_name }}</strong> - {{ ticket.event_date|date:'Y-m-d H:i' }}
             </li>
           {% endfor %}
         </ul>

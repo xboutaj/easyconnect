@@ -18,5 +18,4 @@ urlpatterns = [
     path('join-employee-event/', views.join_event_employee, name='join_event_employee'),
     path('join-event/', views.join_event, name='join_event'),
     path('scan-ticket/', views.scan_ticket_qr, name='scan_ticket'),
-    path('event/<str:ticket_id>/connections/', views.event_connections, name='event_connections'),
 ]

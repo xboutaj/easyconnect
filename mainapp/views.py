@@ -209,8 +209,6 @@ def assign_device_api(request):
 
 
 
-
-
 @login_required
 @role_required('attendee')
 def event_connections(request, ticket_id):

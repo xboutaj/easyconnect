@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Create Event{% endblock %}
+{% block content %}
+<h1>Create Event</h1>
+<form method="post">
+  {% csrf_token %}
+  <label>Name:<input type="text" name="name"></label><br>
+  <label>Description:<textarea name="description"></textarea></label><br>
+  <label>Date:<input type="date" name="date"></label><br>
+  <label>Time:<input type="time" name="time"></label><br>
+  <label>Location:<input type="text" name="location"></label><br>
+  <button type="submit">Create</button>
+</form>
+{% endblock %}

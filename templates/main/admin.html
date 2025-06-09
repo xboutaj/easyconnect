@@ -39,7 +39,7 @@
           {% for event in past_events %}
             <li>
               <strong>{{ event.name }}</strong> {{ event.date }}
-              <button onclick="alert('Viewing insights for {{ event.name }}')">View Insights</button>
+              <a class="see-more" href="{% url 'event_detail' event.id %}">View Details</a>
             </li>
           {% endfor %}
         </ul>
@@ -54,7 +54,10 @@
       {% if upcoming_events %}
         <ul>
           {% for event in upcoming_events %}
-            <li><strong>{{ event.name }}</strong> {{ event.date }}</li>
+            <li>
+              <strong>{{ event.name }}</strong> {{ event.date }}
+              <a class="see-more" href="{% url 'event_detail' event.id %}">View Details</a>
+            </li>
           {% endfor %}
         </ul>
       {% else %}

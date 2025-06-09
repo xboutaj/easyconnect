@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 import uuid
 
 # Extended Profile for any user role (attendee, admin, vendor)
@@ -12,7 +12,7 @@ class UserProfile(models.Model):
         ('employee', 'Employee'),
     ]
 
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(get_user_model(), on_delete=models.CASCADE)
     role = models.CharField(max_length=10, choices=ROLE_CHOICES)
     bio = models.TextField(blank=True)
     linkedin = models.URLField(blank=True)
@@ -30,7 +30,7 @@ class Event(models.Model):
     date = models.DateField()
     time = models.TimeField()
     location = models.CharField(max_length=255)
-    host = models.ForeignKey(User, on_delete=models.CASCADE, related_name='hosted_events')
+    host = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='hosted_events')
     attendee_code = models.CharField(max_length=10, unique=True)
     employee_code = models.CharField(max_length=10, unique=True)
     vendor_code = models.CharField(max_length=10, unique=True)
@@ -50,7 +50,7 @@ class Event(models.Model):
 #         return f"{self.ticket_id} for {self.user.username}"
 
 class Ticket(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     ticket_id = models.CharField(max_length=100, unique=True)
     event_name = models.CharField(max_length=200)
     event_date = models.DateTimeField()
@@ -66,7 +66,7 @@ class Ticket(models.Model):
 
 # Vendor information for vendors
 class VendorInfo(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
     organization_name = models.CharField(max_length=100)
     description = models.TextField(blank=True)
@@ -109,7 +109,7 @@ class Device(models.Model):
 
 # Employee account 
 class EmployeeProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(get_user_model(), on_delete=models.CASCADE)
     joined_events = models.ManyToManyField(Event, related_name="employees")
     phone_number = models.CharField(max_length=20, blank=True)
     verified = models.BooleanField(default=False)

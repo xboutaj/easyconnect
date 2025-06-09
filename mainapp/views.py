@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from mainapp.decorators import role_required
 from core.mqtt_client import latest_message, publish_message
 from django.http import JsonResponse
@@ -8,7 +8,8 @@ import uuid
 import random
 import string
 from datetime import datetime
-from .models import Event, Ticket, EmployeeProfile, Device, UserProfile
+from .models import Event, Ticket, EmployeeProfile, Device, UserProfile, Connection
+from django.db import models
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 import json
@@ -208,5 +209,22 @@ def assign_device_api(request):
 
 
 
+
+
+@login_required
+@role_required('attendee')
+def event_connections(request, ticket_id):
+    ticket = get_object_or_404(Ticket, ticket_id=ticket_id, user=request.user)
+    event = get_object_or_404(Event, name=ticket.event_name, date=ticket.event_date.date())
+    connections_qs = Connection.objects.filter(event=event)
+    connections_qs = connections_qs.filter(models.Q(ticket_1=ticket) | models.Q(ticket_2=ticket)).select_related('ticket_1__user', 'ticket_2__user')
+    connections = []
+    for conn in connections_qs:
+        if conn.ticket_1 == ticket:
+            connections.append(conn.ticket_2)
+        else:
+            connections.append(conn.ticket_1)
+    context = {'ticket': ticket, 'connections': connections}
+    return render(request, 'main/event_connections.html', context)
 
 

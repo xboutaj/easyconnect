@@ -53,32 +53,32 @@
     <!-- Event Cards -->
     <div class="glass-card" data-aos="fade-up">
       <h2>Upcoming Events</h2>
-      <div class="event-card">
-        <h3>AI Expo 2025</h3>
-        <p><strong>Date:</strong> Aug 3, 2025<br><strong>Time:</strong> 10:00 AM<br><strong>Location:</strong> Convention Hall A</p>
-        <p class="event-description short">A full-day showcase of the latest in artificial intelligence and smart devices...</p>
-        <button class="see-more" onclick="toggleDescription(this)">See More About This</button>
-        <ul class="vendor-list" style="display:none;">
-          <li>OpenAI Booth</li>
-          <li>Google DeepMind</li>
-          <li>MIT AI Lab</li>
+      {% if upcoming_events %}
+        <ul>
+          {% for ticket in upcoming_events %}
+            <li>
+              <strong>{{ ticket.event_name }}</strong> - {{ ticket.event_date|date:'Y-m-d H:i' }}
+            </li>
+          {% endfor %}
         </ul>
-      </div>
+      {% else %}
+        <p>No upcoming events.</p>
+      {% endif %}
     </div>
 
     <div class="glass-card" data-aos="fade-up">
       <h2>Past Events</h2>
-      <div class="event-card">
-        <h3>Tech Connect 2024</h3>
-        <p><strong>Date:</strong> April 20, 2024<br><strong>Time:</strong> 9:00 AM<br><strong>Location:</strong> Downtown Center</p>
-        <p class="event-description short">Explore startups, innovators, and connection-building opportunities with wristband data...</p>
-        <button class="see-more" onclick="toggleDescription(this)">See More About This</button>
-        <ul class="vendor-list" style="display:none;">
-          <li>UCSD Startups</li>
-          <li>Apple Dev Hub</li>
-          <li>Cybersecurity Labs</li>
+      {% if past_events %}
+        <ul>
+          {% for ticket in past_events %}
+            <li>
+              <strong>{{ ticket.event_name }}</strong> - {{ ticket.event_date|date:'Y-m-d H:i' }}
+            </li>
+          {% endfor %}
         </ul>
-      </div>
+      {% else %}
+        <p>No past events.</p>
+      {% endif %}
     </div>
 
     <!-- Interactions -->

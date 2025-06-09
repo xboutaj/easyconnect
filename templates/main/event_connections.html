@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Connections for {{ ticket.event_name }}{% endblock %}
+{% load static %}
+{% block content %}
+<header class="navbar">
+  <div class="logo">EasyConnect Attendee</div>
+  <nav class="nav-links">
+    <a href="{% url 'attendee_dashboard' %}">Dashboard</a>
+    <a href="{% url 'logout' %}">Logout</a>
+  </nav>
+</header>
+<section class="hero" data-aos="fade-in">
+  <h2 class="hero-title">Connections at {{ ticket.event_name }}</h2>
+  {% if connections %}
+    <ul>
+      {% for conn in connections %}
+        <li>{{ conn.user.full_name }} ({{ conn.user.email }})</li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No connections yet.</p>
+  {% endif %}
+</section>
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script>AOS.init();</script>
+{% endblock %}

@@ -34,23 +34,32 @@
     <!-- Past Events -->
     <div class="glass-card" data-aos="fade-right">
       <h2 class="text">Past Events</h2>
-      <ul>
-        <li><strong>Tech Connect 2024</strong> April 20, 2024
-          <button onclick="alert('Viewing insights for Tech Connect 2024')">View Insights</button>
-        </li>
-        <li><strong>Innovation Summit</strong> March 10, 2024
-          <button onclick="alert('Viewing insights for Innovation Summit')">View Insights</button>
-        </li>
-      </ul>
+      {% if past_events %}
+        <ul>
+          {% for event in past_events %}
+            <li>
+              <strong>{{ event.name }}</strong> {{ event.date }}
+              <button onclick="alert('Viewing insights for {{ event.name }}')">View Insights</button>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>No past events.</p>
+      {% endif %}
     </div>
 
     <!-- Upcoming Events -->
     <div class="glass-card" data-aos="fade-left">
       <h2>Upcoming Events</h2>
-      <ul>
-        <li><strong>FutureX Fair</strong> July 15, 2025 <em>[Draft]</em></li>
-        <li><strong>AI Expo</strong> August 3, 2025 <em>[Published]</em></li>
-      </ul>
+      {% if upcoming_events %}
+        <ul>
+          {% for event in upcoming_events %}
+            <li><strong>{{ event.name }}</strong> {{ event.date }}</li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>No upcoming events.</p>
+      {% endif %}
     </div>
 
     <!-- New Event Form (Initially Hidden) -->

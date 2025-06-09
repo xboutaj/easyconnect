@@ -53,6 +53,8 @@ def signup_view(request):
 
         messages.success(request, "Sign up successful!")
 
-        return redirect(user.role)
+        redirectLink = "attendee_profile" if user.role == "attendee" else user.role
+
+        return redirect(redirectLink)
 
     return render(request, 'auth/signup.html')

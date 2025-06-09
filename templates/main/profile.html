@@ -13,9 +13,9 @@
   <h1 class="hero-title">Your Profile</h1>
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    <div class="glass-card" data-aos="fade-up">
+    <div class="glass-card" style="align-items:center" data-aos="fade-up">
       {% if profile.profile_picture %}
-        <img src="{{ profile.profile_picture.url }}" alt="Profile picture" style="max-width:150px;display:block;margin-bottom:1rem;" />
+        <img src="{{ profile.profile_picture.url }}" alt="Profile picture" style="max-width:150px;display:block;margin-bottom:1rem" />
       {% endif %}
       <input type="file" name="profile_picture" class="form-input large" />
       <input type="text" class="form-input large" name="full_name" value="{{ request.user.full_name }}" placeholder="Full Name" required />

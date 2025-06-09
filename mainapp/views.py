@@ -111,7 +111,7 @@ def join_event(request):
             event = Event.objects.get(attendee_code=event_code)
         except Event.DoesNotExist:
             messages.error(request, 'Invalid event code')
-            return redirect('attendee_dashboard')
+            return redirect('attendee')
 
         event_dt = timezone.make_aware(datetime.combine(event.date, event.time))
         Ticket.objects.get_or_create(
@@ -121,8 +121,8 @@ def join_event(request):
             defaults={'ticket_id': uuid.uuid4().hex, 'ticket_type': 'GA'}
         )
         messages.success(request, 'Event joined successfully')
-        return redirect('attendee_dashboard')
-    return redirect('attendee_dashboard')
+        return redirect('attendee')
+    return redirect('attendee')
 
 
 @login_required

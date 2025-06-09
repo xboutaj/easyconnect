@@ -14,3 +14,4 @@ __pycache__/
 
 # Personal or sensitive files
 *.env
+media/

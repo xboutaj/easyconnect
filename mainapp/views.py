@@ -8,7 +8,7 @@ import uuid
 import random
 import string
 from datetime import datetime
-from .models import Event, Ticket, EmployeeProfile, Device
+from .models import Event, Ticket, EmployeeProfile, Device, UserProfile
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 import json
@@ -47,6 +47,28 @@ def attendee_dashboard(request):
         'past_events': tickets.filter(event_date__lt=now)
     }
     return render(request, "main/attendee.html", context)
+
+
+@login_required
+@role_required('attendee')
+def attendee_profile(request):
+    profile, _ = UserProfile.objects.get_or_create(user=request.user, defaults={'role': 'attendee'})
+    if request.method == 'POST':
+        request.user.full_name = request.POST.get('full_name', request.user.full_name)
+        request.user.save()
+
+        profile.bio = request.POST.get('bio', profile.bio)
+        profile.linkedin = request.POST.get('linkedin', profile.linkedin)
+        profile.website = request.POST.get('website', profile.website)
+        if request.FILES.get('profile_picture'):
+            profile.profile_picture = request.FILES['profile_picture']
+        profile.save()
+
+        messages.success(request, 'Profile updated successfully')
+        return redirect('attendee_profile')
+
+    context = {'profile': profile}
+    return render(request, 'main/profile.html', context)
 
 @login_required
 @role_required('admin')

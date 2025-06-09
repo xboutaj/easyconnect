@@ -8,6 +8,7 @@ urlpatterns = [
     path('employee-panel/', views.employee, name='employee'),
 
     path('dashboard/', views.attendee_dashboard, name='attendee_dashboard'),
+    path('profile/', views.attendee_profile, name='attendee_profile'),
     path('create-event/', views.create_event, name='create_event'),
     path('api/events/', views.get_events_json, name='get_events_json'),
     # path('employee/join_event/', views.join_event_as_employee, name='join_event_as_employee'),

@@ -31,18 +31,26 @@ def admin(request):
 def vendor(request):
     return render(request, 'main/vendor.html')
 
+@login_required
 @role_required('attendee')
 def attendee(request):
-    return render(request, 'main/attendee.html')
+    return attendee_dashboard(request)
 
 def ticket_dashboard(request):
     msg = latest_message.get("easyconnect/ticket", "No ticket data")
     return render(request, "mainapp/dashboard.html", {"ticket_info": msg})
 
 
+@login_required
+@role_required('attendee')
 def attendee_dashboard(request):
-    tickets = Ticket.objects.filter(user=request.user)
-    return render(request, "main/attendee.html", {"tickets": tickets})
+    tickets = Ticket.objects.filter(user=request.user).order_by('event_date')
+    now = timezone.now()
+    context = {
+        'upcoming_events': tickets.filter(event_date__gte=now),
+        'past_events': tickets.filter(event_date__lt=now)
+    }
+    return render(request, "main/attendee.html", context)
 
 @login_required
 @role_required('admin')
